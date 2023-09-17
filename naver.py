@@ -18,8 +18,13 @@ def func(parameter: str) -> str:
     data4 = re.sub('\([가-힣]{2,3}=연합뉴스\)',"", data3)
     data5 = re.sub('[a-zA-Z]+@[a-zA-Z]+(\.[a-z]{2,4}){1,2}',"", data4)
     data_bs = BeautifulSoup(data5, 'html.parser')
-    content = data_bs.select_one('article#dic_area').text.strip().replace("\n",'')
 
+    if new_bs.select_one('h2#title_area') != None:
+        content = data_bs.select_one('article#dic_area').text.strip().replace("\n",'')
+    elif new_bs.select_one('div.news_headline h4.title') != None:
+        content = data_bs.select_one('div.news_end').text.strip().replace("\n",'')
+    elif new_bs.select_one('h2.end_tit') != None:
+        content = data_bs.select_one('div#articeBody').text.strip().replace("\n",'')
     return print(content)
 
 while True:
@@ -61,19 +66,9 @@ while True:
         if new_bs.select_one('h2#title_area') != None:
             print('일반기사')
             title = (new_bs.select_one('h2#title_area').text.strip())
-
             article = str(new_bs.select('article#dic_area'))
             func(article)
-            # # print(type(article))
-            # data1 = re.sub('<strong.*>.*<\/strong>',"", article)
-            # data2 = re.sub('<em.*>.*<\/em>',"", data1)
-            # data3 = re.sub('[가-힣]{2,3}\s?(?:인턴)?기자',"", data2)
-            # data4 = re.sub('\([가-힣]{2,3}=연합뉴스\)',"", data3)
-            # data5 = re.sub('[a-zA-Z]+@[a-zA-Z]+(\.[a-z]{2,4}){1,2}',"", data4)
-            # # print(data5)        
-            # data_bs = BeautifulSoup(data5, 'html.parser')
-            
-            # content = print(data_bs.select_one('article#dic_area').text.strip().replace("\n",''))
+
             if new_bs.select_one('em.media_end_categorize_item') != None:
                 category = (new_bs.select_one('em.media_end_categorize_item').text)                
             else:
@@ -89,23 +84,15 @@ while True:
         elif new_bs.select_one('div.news_headline h4.title') != None:
             print('스포츠기사')
             title = (new_bs.select_one('div.news_headline h4.title').text.strip())
-
             article = str(new_bs.select('div.news_end'))
-            data1 = re.sub('<strong.*>.*<\/strong>',"", article)
-            data2 = re.sub('<em.*>.*<\/em>',"", data1)
-            data3 = re.sub('[가-힣]{2,3}\s?(?:인턴)?기자',"", data2)
-            data4 = re.sub('\([가-힣]{2,3}=연합뉴스\)',"", data3)
-            data5 = re.sub('[a-zA-Z]+@[a-zA-Z]+(\.[a-z]{2,4}){1,2}',"", data4)
-
-            data_bs = BeautifulSoup(data5, 'html.parser')
-            
-            # content = print(data_bs.select_one('div.news_end').text.strip().replace("\n",''))
+            func(article)
             category = '스포츠'
 
         elif new_bs.select_one('h2.end_tit') != None:
             print('연예기사')
             title = (new_bs.select_one('h2.end_tit').text.strip())
-            content = (new_bs.select_one('div#articeBody').text.strip().replace("\n",''))
+            article = str(new_bs.select('div#articeBody'))
+            func(article)
             category = '연예'
 
         else:
