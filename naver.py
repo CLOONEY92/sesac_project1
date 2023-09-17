@@ -57,11 +57,13 @@ while True:
             # print(type(article))
             data1 = re.sub('<strong.*>.*<\/strong>',"", article)
             data2 = re.sub('<em.*>.*<\/em>',"", data1)
-            # data3 = re.sub('[a-zA-Z]+@[a-zA-Z]+(\.[a-z]{2,4}){1,2}',"", data2)
-            # data4 = re.sub('^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}',"", data3)
-
-            # print(data4)        
-
+            data3 = re.sub('[가-힣]{2,3}\s?(?:인턴)?기자',"", data2)
+            data4 = re.sub('\([가-힣]{2,3}=연합뉴스\)',"", data3)
+            data5 = re.sub('[a-zA-Z]+@[a-zA-Z]+(\.[a-z]{2,4}){1,2}',"", data4)
+            # print(data5)        
+            data_bs = BeautifulSoup(data5, 'html.parser')
+            
+            content = print(data_bs.select_one('article#dic_area').text.strip().replace("\n",''))
             if new_bs.select_one('em.media_end_categorize_item') != None:
                 category = (new_bs.select_one('em.media_end_categorize_item').text)                
             else:
