@@ -18,7 +18,7 @@ for page in range(2, 5):
     page_url = f'https://finance.naver.com/item/sise_day.naver?code=005930&page={page}'
     page_res = requests.get(page_url, headers=headers)
     page_bs = BeautifulSoup(page_res.text, 'html.parser')
-
+    
     for data in page_bs.select("tr[onmouseover = 'mouseOver(this)']"):
         date = (data.select('td')[0].text)
         stock_price = (data.select('td')[1].text)
