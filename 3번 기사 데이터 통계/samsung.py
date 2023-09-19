@@ -10,12 +10,12 @@ headers = {
 }
 
 
-page= 105
+page= 53
 article_sum = 0
 samsung_cnt = 0
 samsung_all_cnt = 0
 
-for date in range(20230805, 20230832):
+for date in range(20230820, 20230832):
 
     while True:
         params = {
@@ -57,10 +57,10 @@ for date in range(20230805, 20230832):
                 content = (new_bs.select_one('article#dic_area').text.strip().replace("\n",""))
                 print(content)
 
-                if re.match('삼성전자', content) != None:
+                if re.match('윤석열', content) != None:
                     samsung_cnt += 1
                     # print(samsung_cnt)
-                print({'삼성전자 기사':samsung_cnt})
+                print({'윤석열 기사':samsung_cnt})
             # else:
             #     print('해당기사에는 없습니다.')        
         
