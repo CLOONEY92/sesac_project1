@@ -21,7 +21,7 @@ for page in range(2, 5):
     
     for data in page_bs.select("tr[onmouseover = 'mouseOver(this)']"):
         date = (data.select('td')[0].text)
-        stock_price = (data.select('td')[1].text)
+        stock_price = (data.select('td')[1].text.replace("\"",""))
 
         if re.match('^2023.08', date):
             # print(date)
